@@ -1,16 +1,15 @@
 import React from "react";
-// import dotenv from "dotenv";
-// dotenv.config();
+
+const apiKey = import.meta.env.VITE_REACT_APP_BASE_API_URL;
 
 const postDataApi = async (url, data) => {
   try {
-    const response = await fetch(`http://localhost:8000/api/v1/${url}`, {
+    const response = await fetch(`${apiKey}/${url}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // You can add any additional headers here if needed
       },
-      body: JSON.stringify(data), // Convert data to JSON string
+      body: JSON.stringify(data),
     });
 
     const responseData = await response.json();

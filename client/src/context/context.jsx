@@ -34,7 +34,7 @@ const Context = ({ children }) => {
   const fetchAuthors = async (pageToFetch) => {
     try {
       const response = await getApiData(
-        `/authors/?page=${pageToFetch}&limit=${limit}`
+        `authors/?page=${pageToFetch}&limit=${limit}`
       );
       setAuthors(response.data);
       setTotalAuthors(response.NOA);

@@ -1,8 +1,12 @@
 import React from "react";
 
+const apiKey = import.meta.env.VITE_REACT_APP_BASE_API_URL;
+
 const getApiData = async (url) => {
   try {
-    const response = await fetch(`http://localhost:8000/api/v1/${url}`);
+    const response = await fetch(
+      `${apiKey}/${url}`
+    );
 
     const data = await response.json();
 

@@ -1,23 +1,24 @@
 const StatusCodes = require("http-status-codes");
 const Author = require("../models/author");
 const Book = require("../models/book");
+const { BadRequestError, CustomAPIError } = require("../errors");
 
 const createBook = async (req, res) => {
   const { author, name, isbn } = req.body;
 
   const legalAuthor = Author.findById({ _id: author });
   if (!legalAuthor) {
-    //bad Request
+    throw new BadRequestError("Please provide a valid to Author...");
   }
 
   if (!isbn) {
-    //bad Request
+    throw new BadRequestError("Please provide a isbn code...");
   }
 
   if (!name) {
-    //bad request
+    throw new BadRequestError("Please provide a name...");
   }
-  console.log(author);
+
   const item = await Book.create(req.body);
   res.status(201).json({ msg: "SUCCESS", data: item });
 };
@@ -25,7 +26,7 @@ const createBook = async (req, res) => {
 const createAuthor = async (req, res) => {
   const { firstName, lastName } = req.body;
   if (!(firstName && lastName)) {
-    //bad request
+    throw new BadRequestError("Please provide afirstname and lastname...");
   }
   const author = await Author.create(req.body);
 
@@ -39,7 +40,7 @@ const getAllBooks = async (req, res) => {
   // pagination stuff
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 10;
-  
+
   //logic if page is 4 we have to skip items of three pages
   const skip = (page - 1) * limit;
 
@@ -67,10 +68,8 @@ const getAllAuthors = async (req, res) => {
       data: authors,
     });
   } catch (error) {
-    // Handle the error and send an error response
-    res
-      .status(500)
-      .json({ msg: "Error fetching authors", error: error.message });
+    res.status(500);
+    throw new CustomAPIError(500, "Please provide a valid to Author...");
   }
 };
 

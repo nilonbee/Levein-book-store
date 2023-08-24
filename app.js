@@ -8,12 +8,17 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const cors = require("cors");
 // const rateLimiter = require("express-rate-limit");
+const notFoundMiddleware = require("./middleware/not-found");
+const errorHandlerMiddleware = require("./middleware/error-handler");
 
 app.use(express.json());
 app.use(helmet());
 app.use(xss());
 app.use(cors());
 app.use("/api/v1", mainRouter);
+
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 const start = async () => {
   try {

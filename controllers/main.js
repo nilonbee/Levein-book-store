@@ -1,24 +1,23 @@
 const StatusCodes = require("http-status-codes");
 const Author = require("../models/author");
 const Book = require("../models/book");
-const { BadRequestError, CustomAPIError } = require("../errors");
 
 const createBook = async (req, res) => {
   const { author, name, isbn } = req.body;
 
   const legalAuthor = Author.findById({ _id: author });
   if (!legalAuthor) {
-    throw new BadRequestError("Please provide a valid to Author...");
+    //bad request
   }
 
   if (!isbn) {
-    throw new BadRequestError("Please provide a isbn code...");
+    //bad Request
   }
 
   if (!name) {
-    throw new BadRequestError("Please provide a name...");
+    //bad request
   }
-
+  console.log(author);
   const item = await Book.create(req.body);
   res.status(201).json({ msg: "SUCCESS", data: item });
 };
@@ -26,7 +25,7 @@ const createBook = async (req, res) => {
 const createAuthor = async (req, res) => {
   const { firstName, lastName } = req.body;
   if (!(firstName && lastName)) {
-    throw new BadRequestError("Please provide afirstname and lastname...");
+    //bad request
   }
   const author = await Author.create(req.body);
 
@@ -68,8 +67,10 @@ const getAllAuthors = async (req, res) => {
       data: authors,
     });
   } catch (error) {
-    res.status(500);
-    throw new CustomAPIError(500, "Please provide a valid to Author...");
+    // Handle the error and send an error response
+    res
+      .status(500)
+      .json({ msg: "Error fetching authors", error: error.message });
   }
 };
 

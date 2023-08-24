@@ -24,7 +24,6 @@ const AuthorForm = ({ title, modalOpen, setModalOpen }) => {
      
     } catch (error) {
       console.error("Error adding author:", error);
-      
     }
   };
 
@@ -84,7 +83,6 @@ const AuthorForm = ({ title, modalOpen, setModalOpen }) => {
         >
           <Input />
         </Form.Item>
-        {/* Add more form fields as needed */}
       </Form>
     </Modal>
   );

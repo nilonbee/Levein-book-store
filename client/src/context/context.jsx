@@ -4,7 +4,29 @@ import getApiData from "../api-service/getdataApi";
 const AppContext = React.createContext();
 
 const Context = ({ children }) => {
-  //Modal stuff
+  //Authors
+  const limit = 8;
+  const [authors, setAuthors] = useState([]);
+  const [page, setPage] = useState(1); // Current page
+  const [totalAuthors, setTotalAuthors] = useState(0); // Total number of authors
+
+  const fetchAuthors = async (pageToFetch) => {
+    try {
+      const response = await getApiData(
+        `authors/?page=${pageToFetch}&limit=${limit}`
+      );
+      setAuthors(response.data);
+      setTotalAuthors(response.NOA);
+    } catch (error) {
+      console.error("Error fetching authors", error);
+    }
+  };
+
+  // Books
+  const [books, setBooks] = useState([]);
+  const [totalBooks, setTotalBooks] = useState(0);
+
+  // Modal functions
   const [modal1Open, setModal1Open] = useState(false);
   const [modal2Open, setModal2Open] = useState(false);
 
@@ -24,32 +46,9 @@ const Context = ({ children }) => {
     setModal2Open(false);
   };
 
-
-  //Authors
-  const limit = 5;
-  const [authors, setAuthors] = useState([]);
-  const [page, setPage] = useState(1); // Current page
-  const [totalAuthors, setTotalAuthors] = useState(0); // Total number of authors
-
-  const fetchAuthors = async (pageToFetch) => {
-    try {
-      const response = await getApiData(
-        `authors/?page=${pageToFetch}&limit=${limit}`
-      );
-      setAuthors(response.data);
-      setTotalAuthors(response.NOA);
-    } catch (error) {
-      console.error("Error fetching authors", error);
-    }
-  };
-
-  // Books
-  const [books, setBooks] = useState([]);
-  const [totalBooks, setTotalBooks] = useState(0); // Total number of authors
-
   const fetchBooks = async (pageToFetch) => {
     try {
-      const tempBooks = await getApiData(`/books/?page=${pageToFetch}&limit=${limit}`);
+      const tempBooks = await getApiData(`books/?page=${pageToFetch}&limit=${limit}`);
       setBooks(tempBooks.data);
       setTotalBooks(tempBooks.NOB);
       console.log('NBooks', books);
@@ -75,12 +74,10 @@ const Context = ({ children }) => {
           fetchBooks,
           modal1Open,
           modal2Open,
-          setModal1Open,
-          setModal2Open,
+          openAuthorModal,
+          closeAuthorModal,
           openBookModal,
           closeBookModal,
-          openAuthorModal,
-          closeAuthorModal
         }}
       >
         {children}

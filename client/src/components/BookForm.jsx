@@ -7,7 +7,20 @@ import postDataApi from "../api-service/postDataApi";
 const BookForm = ({ title, modalOpen, setModalOpen }) => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const { totalAuthors, fetchAuthors, fetchBooks, page, authors } = useGlobalContext();
+  const { totalAuthors, fetchAuthors, fetchBooks, page, setAuthors, authors } = useGlobalContext();
+
+  const fetchAllAuthors = async () => {
+    try {
+      const allAuthors = await getApiData(`/books`);
+      setAuthors(allAuthors)
+    } catch (error) {
+      console.error("Error fetching book data", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllAuthors();
+  }, []);
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -25,7 +38,7 @@ const BookForm = ({ title, modalOpen, setModalOpen }) => {
       if (response.msg === "SUCCESS") {
         setLoading(false);
         await fetchBooks(page);
-        form.resetFields(); // Reset the form
+        form.resetFields();
         setModalOpen(false);
         // Close the modal
       }
@@ -111,7 +124,7 @@ console.log('formAuthors',authors);
               (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
             }
           >
-            {authors.map((author) => (
+          {authors.map((author) => (
               <Select.Option
                 key={author._id}
                 value={author.isbn}

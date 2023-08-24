@@ -1,16 +1,18 @@
 import React from "react";
-
 const apiKey = import.meta.env.VITE_REACT_APP_BASE_API_URL;
 
 const postDataApi = async (url, data) => {
   try {
-    const response = await fetch(`${apiKey}/${url}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      `https://levein-book-store.onrender.com/api/v1/${url}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     const responseData = await response.json();
 

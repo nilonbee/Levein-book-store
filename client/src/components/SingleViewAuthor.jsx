@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useGlobalContext } from "../context/context";
+
 import getApiData from "../api-service/getdataApi";
 
-export default function SingleViewAuthor() {
+export default  function SingleViewAuthor() {
   const { id } = useParams(); // Access the book ID from the URL
-
+  const {books} = useGlobalContext();
+  const authorBooks = books.filter((item)=>item.author===id);
   // State to store the book data
   const [singleAuthor, setSingleAuthor] = useState(null);
 
@@ -25,9 +28,10 @@ export default function SingleViewAuthor() {
   return (
     <div className="list-wrapper">
       {singleAuthor ? (
-        <div>
-          <h2>{singleAuthor?.author?.firstName}</h2>
-          <h2>{singleAuthor?.author?.lastName}</h2> 
+        <div className="singleView">
+          <h4>{`First Name: ${singleAuthor.author.firstName}`}</h4>
+          <h4>{`Last Name: ${singleAuthor.author.lastName}`}</h4>
+          <h4>{`Books By Author: ${authorBooks.map((book)=>book.name)}`}</h4>
         </div>
       ) : (
         <p>Loading...</p>

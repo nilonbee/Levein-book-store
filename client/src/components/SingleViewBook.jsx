@@ -21,14 +21,19 @@ export default function SingleBook() {
   useEffect(() => {
     fetchBookData();
   }, [id]);
-console.log('singleBoook', singleBook)
+  
+  // const getSpecialBooks = () => {
+  //   let tempBooks = books.filter((book) => book.author === id)
+  //   return tempBooks;
+  // }
+
   return (
     <div className="list-wrapper">
       {singleBook ? (
-        <div>
-          <h2>{singleBook?.book.name}</h2>
-          <p>{singleBook?.book.isbn}</p> 
-          <p>{singleBook.book.author}</p>
+        <div className="singleView">
+          <h4>{`Book Name: ${singleBook?.book.name}`}</h4>
+          <h4>{`Isbn code: ${singleBook?.book.isbn}`}</h4> 
+          <h4>{`Author: ${singleBook.book.author}`}</h4>
         </div>
       ) : (
         <p>Loading...</p>

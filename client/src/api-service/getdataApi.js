@@ -4,11 +4,12 @@ const apiKey = import.meta.env.VITE_REACT_APP_BASE_API_URL;
 
 const getApiData = async (url) => {
   try {
+    // const response = await fetch(`${apiKey}/${url}`);
     const response = await fetch(
-      `${apiKey}/${url}`
+      `https://levein-book-store.onrender.com/api/v1/${url}`
     );
 
-    const data = await response.json();
+    const data = url ? await response.json() : responseEx.json();
 
     if (response.status === 201) {
       // Return the data on success

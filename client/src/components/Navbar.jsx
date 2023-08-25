@@ -5,7 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 const Navbar = ({ openAuthorModal, openBookModal }) => {
   const location = useLocation();
   const currentPath = location.pathname;
-  console.log("link", currentPath);
 
   return (
     <main>

@@ -4,18 +4,15 @@ const apiKey = import.meta.env.VITE_REACT_APP_BASE_API_URL;
 
 const getApiData = async (url) => {
   try {
-    // const response = await fetch(`${apiKey}/${url}`);
     const response = await fetch(`${apiKey}/${url}`);
 
     const data = await response.json();
 
     if (response.status === 201) {
       // Return the data on success
-      console.log("calling getApiData", data);
       return data;
     } else {
-      // Handle non-successful responses, e.g., log an error message
-      console.error(`API request failed with status ${response.status}`);
+      // Handle non-successful responses
       throw new Error(`API request failed with status ${response.status}`);
     }
   } catch (error) {

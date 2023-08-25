@@ -5,17 +5,18 @@ const AppContext = React.createContext();
 
 const Context = ({ children }) => {
   //Authors
-  const limit = 5;
+  const limit = 8;
   const [authors, setAuthors] = useState([]);
   const [page, setPage] = useState(1); // Current page
   const [totalAuthors, setTotalAuthors] = useState(0); // Total number of authors
   const [loading, setLoading] = useState(false);
 
-  const fetchAuthors = async (pageToFetch) => {
+  const fetchAuthors = async () => {
     setLoading(true);
     try {
       const response = await getApiData(
-        `authors/?page=${pageToFetch}&limit=${limit}`
+        // `authors/?page=${pageToFetch}&limit=${limit}`
+        `authors`
       );
       setAuthors(response.data);
       setTotalAuthors(response.NOA);
@@ -57,7 +58,6 @@ const Context = ({ children }) => {
       setBooks(tempBooks.data);
       setTotalBooks(tempBooks.NOB);
       setLoading(false);
-      console.log('NBooks', books);
     } catch (error) {
       console.error("Error fetching books", error);
       setLoading(false);

@@ -14,14 +14,14 @@ export default function Authors() {
 
   useEffect(() => {
     // Call the fetchAuthors function when the component mounts
-    fetchAuthors(1);
+    fetchAuthors();
   }, [totalAuthors, page]);
 
   // Handle page change
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
-console.log('loading', loading);
+
   return (
     <div className="list-wrapper">
       <h2>Authors</h2>
@@ -32,6 +32,7 @@ console.log('loading', loading);
       ) : (
         authors?.map((author) => (
           <Tile
+            key={author._id}
             title={author?.firstName}
             subtitle={author?.lastName}
             avatar={<UserOutlined />}
@@ -43,15 +44,6 @@ console.log('loading', loading);
           />
         ))
       )}
-      <div className="pagination">
-        {/* <Pagination
-          current={page}
-          pageSize={limit}
-          total={totalAuthors}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-        /> */}
-      </div>
     </div>
   );
 }

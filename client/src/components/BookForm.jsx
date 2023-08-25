@@ -9,25 +9,12 @@ const BookForm = ({ title, modalOpen, setModalOpen }) => {
   const [form] = Form.useForm();
   const { totalAuthors, fetchAuthors, fetchBooks, page, setAuthors, authors, loading, setLoading} = useGlobalContext();
 
-  // const fetchAllAuthors = async () => {
-  //   try {
-  //     const allAuthors = await getApiData(`/books`);
-  //     setAuthors(allAuthors)
-  //   } catch (error) {
-  //     console.error("Error fetching book data", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchAllAuthors();
-  // }, []);
-
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
 
   useEffect(() => {
-    fetchAuthors(1);
+    fetchAuthors();
   }, []);
 
   const handleAddBook = async (data) => {
@@ -40,7 +27,6 @@ const BookForm = ({ title, modalOpen, setModalOpen }) => {
         await fetchBooks(page);
         form.resetFields();
         setModalOpen(false);
-        // Close the modal
       }
     } catch (error) {
       console.error("Error adding author:", error);
@@ -67,7 +53,6 @@ const BookForm = ({ title, modalOpen, setModalOpen }) => {
     setModalOpen(false);
   };
 
-console.log('formAuthors',authors);
   return (
     <Modal
       title={`Create ${title}`}
@@ -120,7 +105,7 @@ console.log('formAuthors',authors);
         >
           <Select
             showSearch
-            placeholder="Select an author" // Changed placeholder text
+            placeholder="Select an author"
             optionFilterProp="children"
             onChange={handleChange}
             filterOption={(input, option) =>
@@ -138,7 +123,6 @@ console.log('formAuthors',authors);
             ))}
           </Select>
         </Form.Item>
-        {/* Add more form fields as needed */}
       </Form>
     </Modal>
   );

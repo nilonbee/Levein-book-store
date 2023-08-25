@@ -29,8 +29,7 @@ const AuthorForm = ({ title, modalOpen, setModalOpen }) => {
   const handleSubmit = () => {
     form
       .validateFields().then((data) => {
-        handleAddAuthor(data),
-        () => console.log('formData', data);
+        handleAddAuthor(data)
       })
       .catch((errorInfo) => {
         console.log("Validation failed:", errorInfo);

@@ -18,7 +18,6 @@ const postDataApi = async (url, data) => {
 
     if (responseData?.msg === "SUCCESS") {
       // Return the response data on success
-      console.log("msg", responseData?.msg);
       return responseData;
     }
   } catch (error) {

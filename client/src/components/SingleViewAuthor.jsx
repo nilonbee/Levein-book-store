@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useGlobalContext } from "../context/context";
 
 import getApiData from "../api-service/getdataApi";
+import { Spin } from "antd";
 
 export default  function SingleViewAuthor() {
   const { id } = useParams(); // Access the book ID from the URL
@@ -34,7 +35,9 @@ export default  function SingleViewAuthor() {
           <h4>{`Books By Author: ${authorBooks.map((book)=>book.name)}`}</h4>
         </div>
       ) : (
-        <p>Loading...</p>
+        <div className="content-wrapper">
+          <Spin/>
+        </div>
       )}
     </div>
   );

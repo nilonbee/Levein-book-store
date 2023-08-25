@@ -346,6 +346,9 @@ span .error {
     max-width: 700px;
   }
 }
+.content-wrapper {
+  margin-top: 20vh;
+}
 
 .title-link,
 .nav-link {

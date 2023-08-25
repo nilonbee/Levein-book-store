@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getApiData from "../api-service/getdataApi";
 import { useGlobalContext } from "../context/context";
+import { Spin } from "antd";
 
 export default function SingleBook() {
   const { id } = useParams(); // Access the book ID from the URL
@@ -32,10 +33,12 @@ export default function SingleBook() {
         <div className="singleView">
           <h4>{`Book Name: ${singleBook?.book?.name}`}</h4>
           <h4>{`Isbn code: ${singleBook?.book?.isbn}`}</h4> 
-          <h4>{`Author: ${authorName.firstName} ${authorName.lastName}`}</h4>
+          <h4>{`Author: ${authorName?.firstName} ${authorName?.lastName}`}</h4>
         </div>
       ) : (
-        <p>Loading...</p>
+        <div className="content-wrapper">
+          <Spin/>
+        </div>
       )}
     </div>
   );

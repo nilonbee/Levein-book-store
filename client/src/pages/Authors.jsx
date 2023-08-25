@@ -1,54 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context/context";
-import { Avatar, Pagination } from "antd";
+import { Pagination, Spin } from "antd";
 import { AntDesignOutlined, UserOutlined } from "@ant-design/icons";
 import { useMediaQuery } from "react-responsive";
+import Tile from "../components/Tile";
 
 export default function Authors() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   //imports from global state
-  const { books, authors, page, setPage, totalAuthors, limit, fetchAuthors } =
+  const { books, authors, page, setPage, totalAuthors, limit, fetchAuthors, loading } =
     useGlobalContext();
 
   useEffect(() => {
     // Call the fetchAuthors function when the component mounts
-    fetchAuthors(page);
+    fetchAuthors(1);
   }, [totalAuthors, page]);
 
   // Handle page change
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
-  
+console.log('loading', loading);
   return (
     <div className="list-wrapper">
       <h2>Authors</h2>
-      {authors?.map((author) => (
-        <div className="list-item" key={author._id}>
-          {!isMobile && (
-            <div className="avatar">
-              <Link to={`/authors/${author._id}`} style={{ display: "block" }}>
-                <Avatar
-                  icon={<AntDesignOutlined />}
-                  style={{
-                    backgroundColor: "#c9e5fd",
-                    color: "#1677ff",
-                  }}
-                />
-              </Link>
-            </div>
-          )}
-          <Link to={`/authors/${author._id}`} style={{ display: "block" }}>
-            <div className="links">
-              <div className="names">{author?.firstName}</div>
-              {!isMobile && <div className="names">{author?.lastName}</div>}
-              {/* to do */}
-              {/* <div className="action"></div> */}
-            </div>
-          </Link>
+      {loading ? (
+        <div className="content-wrapper">
+          <Spin />
         </div>
-      ))}
+      ) : (
+        authors?.map((author) => (
+          <Tile
+            title={author?.firstName}
+            subtitle={author?.lastName}
+            avatar={<UserOutlined />}
+            id={author._id}
+            isMobile={isMobile}
+            color="#1677ff"
+            bgColor="#c9e5fd"
+            slug="authors"
+          />
+        ))
+      )}
       <div className="pagination">
         {/* <Pagination
           current={page}

@@ -9,16 +9,20 @@ const Context = ({ children }) => {
   const [authors, setAuthors] = useState([]);
   const [page, setPage] = useState(1); // Current page
   const [totalAuthors, setTotalAuthors] = useState(0); // Total number of authors
+  const [loading, setLoading] = useState(false);
 
   const fetchAuthors = async (pageToFetch) => {
+    setLoading(true);
     try {
       const response = await getApiData(
         `authors/?page=${pageToFetch}&limit=${limit}`
       );
       setAuthors(response.data);
       setTotalAuthors(response.NOA);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching authors", error);
+      setLoading(false);
     }
   };
 
@@ -47,13 +51,16 @@ const Context = ({ children }) => {
   };
 
   const fetchBooks = async (pageToFetch) => {
+    setLoading(true)
     try {
       const tempBooks = await getApiData(`books/?page=${pageToFetch}&limit=${limit}`);
       setBooks(tempBooks.data);
       setTotalBooks(tempBooks.NOB);
+      setLoading(false);
       console.log('NBooks', books);
     } catch (error) {
       console.error("Error fetching books", error);
+      setLoading(false);
     }
   };
 
@@ -78,6 +85,8 @@ const Context = ({ children }) => {
           closeAuthorModal,
           openBookModal,
           closeBookModal,
+          loading,
+          setLoading
         }}
       >
         {children}

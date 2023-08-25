@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Modal, Form, Input, Button } from "antd";
 import { useGlobalContext } from "../context/context";
 import { Select } from "antd";
 import postDataApi from "../api-service/postDataApi";
+import getApiData from "../api-service/getdataApi";
 
 const BookForm = ({ title, modalOpen, setModalOpen }) => {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  const { totalAuthors, fetchAuthors, fetchBooks, page, setAuthors, authors } = useGlobalContext();
+  const { totalAuthors, fetchAuthors, fetchBooks, page, setAuthors, authors, loading, setLoading} = useGlobalContext();
 
-  const fetchAllAuthors = async () => {
-    try {
-      const allAuthors = await getApiData(`/books`);
-      setAuthors(allAuthors)
-    } catch (error) {
-      console.error("Error fetching book data", error);
-    }
-  };
+  // const fetchAllAuthors = async () => {
+  //   try {
+  //     const allAuthors = await getApiData(`/books`);
+  //     setAuthors(allAuthors)
+  //   } catch (error) {
+  //     console.error("Error fetching book data", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchAllAuthors();
-  }, []);
+  // useEffect(() => {
+  //   fetchAllAuthors();
+  // }, []);
 
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
 
   useEffect(() => {
-    fetchAuthors(page);
+    fetchAuthors(1);
   }, []);
 
   const handleAddBook = async (data) => {
@@ -44,15 +44,18 @@ const BookForm = ({ title, modalOpen, setModalOpen }) => {
       }
     } catch (error) {
       console.error("Error adding author:", error);
+      setLoading(false);
     }
   };
 
   const handleSubmit = () => {
+    setLoading(true);
     form
       .validateFields()
       .then((data) => {
         handleAddBook(data);
-        console.log("formData", data);
+      }).then(()=>{
+        setLoading(false);
       })
       .catch((errorInfo) => {
         console.log("Validation failed:", errorInfo);
@@ -124,7 +127,7 @@ console.log('formAuthors',authors);
               (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
             }
           >
-          {authors.map((author) => (
+          {authors?.map((author) => (
               <Select.Option
                 key={author._id}
                 value={author.isbn}

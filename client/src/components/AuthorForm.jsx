@@ -6,8 +6,7 @@ import postDataApi from "../api-service/postDataApi";
 
 const AuthorForm = ({ title, modalOpen, setModalOpen }) => {
   const [form] = Form.useForm();
-  const [loading, setLoading] = React.useState(false);
-  const {fetchAuthors, page} = useGlobalContext();
+  const {fetchAuthors, page, setLoading} = useGlobalContext();
 
   const handleAddAuthor = async (data) => {
     setLoading(true);
@@ -27,7 +26,7 @@ const AuthorForm = ({ title, modalOpen, setModalOpen }) => {
     }
   };
 
-  const handleOk = () => {
+  const handleSubmit = () => {
     form
       .validateFields().then((data) => {
         handleAddAuthor(data),
@@ -47,13 +46,13 @@ const AuthorForm = ({ title, modalOpen, setModalOpen }) => {
     <Modal
       title={`Add ${title}`}
       open={modalOpen}
-      onOk={handleOk}
+      onOk={handleSubmit}
       onCancel={handleCancel}
       footer={[
         <Button key="back" onClick={handleCancel}>
           Cancel
         </Button>,
-        <Button key="submit" type="primary" onClick={handleOk}>
+        <Button key="submit" type="primary" onClick={handleSubmit}>
           Submit
         </Button>,
       ]}

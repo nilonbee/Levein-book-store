@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Avatar, Pagination } from "antd";
+import { Pagination, Spin } from "antd";
 import { useGlobalContext } from "../context/context";
 import { AlipaySquareFilled } from "@ant-design/icons";
 import { useMediaQuery } from "react-responsive";
+import Tile from "../components/Tile";
 
 export default function Books() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   // State to store the fetched books
-  const { books, page, setPage, totalBooks, limit, fetchBooks } =
+  const { books, page, setPage, totalBooks, limit, fetchBooks, loading } =
     useGlobalContext();
 
   useEffect(() => {
@@ -24,32 +25,31 @@ export default function Books() {
   return (
     <div className="list-wrapper">
       <h2>Books</h2>
-      {books?.map((item) => (
-        <div className="list-item">
-          {!isMobile && (
-            <div className="avatar">
-              <Avatar
-                icon={<AlipaySquareFilled />}
-                style={{
-                  backgroundColor: "#c9e5fd",
-                  color: "#1677ff",
-                }}
-              />
-            </div>
-          )}
-          <Link to={`/books/${item._id}`} style={{ display: "block" }}>
-            <span>{item.name}</span>
-          </Link>
+      {loading ? (
+        <div className="content-wrapper">
+          <Spin />
         </div>
-      ))}
+      ) : (
+        books?.map((book) => (
+          <Tile
+            title={book?.name}
+            avatar={<AlipaySquareFilled />}
+            id={book._id}
+            isMobile={isMobile}
+            color="#1677ff"
+            bgColor="#c9e5fd"
+            slug="books"
+          />
+        ))
+      )}
       <div className="pagination">
-        <Pagination
+        {!loading && (<Pagination
           current={page}
           pageSize={limit}
           total={totalBooks}
           onChange={handlePageChange}
           showSizeChanger={false}
-        />
+        />)}
       </div>
     </div>
   );

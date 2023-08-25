@@ -5,7 +5,7 @@ const AppContext = React.createContext();
 
 const Context = ({ children }) => {
   //Authors
-  const limit = 8;
+  const limit = 6;
   const [authors, setAuthors] = useState([]);
   const [page, setPage] = useState(1); // Current page
   const [totalAuthors, setTotalAuthors] = useState(0); // Total number of authors
